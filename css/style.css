@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.navbar-nav .nav-link {
+    color: #EFB820 !important;
+    font-weight: bold;
+}
+
+.hero {
+    background-image: url('../img/DALL·E\ 2024-08-07\ 23.32.02\ -\ A\ futuristic\ blue\ house\ with\ sleek\,\ angular\ lines\ and\ a\ lot\ of\ glass.\ The\ house\ is\ set\ in\ a\ modern\ landscape\ with\ minimalistic\ garden\ design\ and\ advan.webp');
+    background-size: cover;
+    background-position: center;
+    padding: 100px 0;
+    color: white;
+    text-align: center;
+    display: flex;
+    height: 55vh;
+
+}
+
+.hero h1 {
+    font-size: 3rem;
+    /*oscurecer las letras*/    
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.section-title {
+    color: #150D3E;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.property {
+    margin-bottom: 20px;
+}
+
+.property img {
+    width: 100%;
+    height: auto;
+}
+
+.property-info {
+    padding: 10px;
+    background-color: #150D3E;
+    color: white;
+}
+
+.footer {
+    background-color: #EFB820;
+    padding: 20px 0;
+    color: #150D3E;
+}
+
+.footer a {
+    color: #150D3E;
+}
+
+.footer-form {
+    background-color: #f7f7f7;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.footer .contact-info,
+.footer .social-icons {
+    margin-bottom: 20px;
+}
+
+.finally {
+    background-color: #150D3E;
+    color: white;
+}
