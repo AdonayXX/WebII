@@ -110,29 +110,6 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-
-<script>
-    const editModal = document.getElementById('editModal');
-    editModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        const propertyId = button.getAttribute('data-id');
-        const title = button.getAttribute('data-title');
-        const description = button.getAttribute('data-description');
-        const price = button.getAttribute('data-price');
-        const type = button.getAttribute('data-type');
-        const isFeatured = button.getAttribute('data-is_featured') === '1';
-        const image = button.getAttribute('data-image');
-
-        // Asignar los datos al formulario dentro del modal
-        document.getElementById('modalPropertyId').value = propertyId;
-        document.getElementById('modalTitle').value = title;
-        document.getElementById('modalDescription').value = description;
-        document.getElementById('modalPrice').value = price;
-        document.getElementById('modalType').value = type;
-        document.getElementById('modalIsFeatured').checked = isFeatured;
-        document.getElementById('currentImage').src = '../img/' + image;
-    });
-</script>
-
+ <script src="../js/app.js"></script>
 </body>
 </html>
