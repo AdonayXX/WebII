@@ -1,6 +1,10 @@
 <?php
 session_start();
 include '../includes/db.php';
+if ($_SESSION['role'] !== 'admin') {
+    header("Location: ../index.php");
+    exit();
+}
 
 $title = $_POST['title'];
 $description = $_POST['description'];

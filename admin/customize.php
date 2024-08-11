@@ -20,16 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $phone = $_POST['phone'];
     $email = $_POST['email'];
 
-
     $social_links = $_POST['social_links'];
-    if (is_array($social_links)) {
-        $social_links_json = json_encode($social_links, JSON_UNESCAPED_SLASHES);
-    } else {
-        $social_links_json = $config['social_links'];
-    }
+    $social_links_json = is_array($social_links) ? json_encode($social_links, JSON_UNESCAPED_SLASHES) : $config['social_links'];
 
     $banner_image = $config['banner_image'];
     $about_image = $config['about_image'];
+    $hero_image = $config['hero_image'];  
 
     if (!empty($_FILES['banner_image']['name'])) {
         $banner_image = $_FILES['banner_image']['name'];
@@ -41,8 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         move_uploaded_file($_FILES['about_image']['tmp_name'], "../img/$about_image");
     }
 
-    $query = $conn->prepare("UPDATE site_config SET primary_color = ?, secondary_color = ?, banner_text = ?, about_text = ?, address = ?, phone = ?, email = ?, social_links = ?, banner_image = ?, about_image = ? WHERE id = 1");
-    $query->bind_param("ssssssssss", $primary_color, $secondary_color, $banner_text, $about_text, $address, $phone, $email, $social_links_json, $banner_image, $about_image); // las 's' indican que los valores son de tipo string
+    if (!empty($_FILES['hero_image']['name'])) {
+        $hero_image = $_FILES['hero_image']['name'];
+        move_uploaded_file($_FILES['hero_image']['tmp_name'], "../img/$hero_image");
+    }
+
+    $query = $conn->prepare("UPDATE site_config SET primary_color = ?, secondary_color = ?, banner_text = ?, about_text = ?, address = ?, phone = ?, email = ?, social_links = ?, banner_image = ?, about_image = ?, hero_image = ? WHERE id = 1");
+    $query->bind_param("sssssssssss", $primary_color, $secondary_color, $banner_text, $about_text, $address, $phone, $email, $social_links_json, $banner_image, $about_image, $hero_image);
 
     if ($query->execute()) {
         $success_message = "Configuración actualizada con éxito.";
@@ -50,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error_message = "Error al actualizar la configuración.";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -96,6 +98,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="file" class="form-control" id="banner_image" name="banner_image">
                 <img src="../img/<?php echo $config['banner_image']; ?>" alt="Imagen del Banner" class="img-thumbnail mt-2" width="200">
             </div>
+            <div class="mb-3">
+                <label for="hero_image" class="form-label">Imagen del Hero</label>
+                <input type="file" class="form-control" id="hero_image" name="hero_image">
+                <img src="../img/<?php echo $config['hero_image']; ?>" alt="Imagen del Hero" class="img-thumbnail mt-2" width="200">
+            </div>
+
             <div class="mb-3">
                 <label for="about_text" class="form-label">Texto de "Quiénes Somos"</label>
                 <textarea class="form-control" id="about_text" name="about_text" required><?php echo $config['about_text']; ?></textarea>
