@@ -24,7 +24,7 @@ $config = $query->fetch_assoc();
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#"><img src="images/<?php echo $config['banner_image']; ?>" alt="Logo" height="50"></a>
+            <a class="navbar-brand" href="#"><img src="img/<?php echo $config['banner_image']; ?>?<?php echo time(); ?>" alt="Banner" height="50"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -62,7 +62,7 @@ $config = $query->fetch_assoc();
                 <p><?php echo $config['about_text']; ?></p>
             </div>
             <div class="col-md-4">
-                <img src="images/<?php echo $config['about_image']; ?>" alt="Quiénes somos" class="img-fluid">
+                <img src="img/<?php echo $config['about_image']; ?>" alt="Quiénes somos" class="img-fluid">
             </div>
         </div>
     </section>
@@ -78,13 +78,13 @@ $config = $query->fetch_assoc();
                     <p><strong>Email:</strong> <a href="mailto:<?php echo $config['email']; ?>"><?php echo $config['email']; ?></a></p>
                 </div>
                 <div class="col-md-4 text-center">
-                    <img src="images/<?php echo $config['banner_image']; ?>" alt="Logo" height="50">
+                    <img src="img/<?php echo $config['banner_image']; ?>" alt="Logo" height="50">
                     <div class="social-icons mt-3">
                         <?php
                         $social_links = json_decode($config['social_links'], true);
                         if (is_array($social_links)) {
                             foreach ($social_links as $link) {
-                                echo "<a href=\"$link\"><img src=\"images/facebook-icon.png\" alt=\"Red Social\" height=\"30\"></a> ";
+                                echo "<a href=\"$link\"><img src=\"img/facebook-icon.png\" alt=\"Red Social\" height=\"30\"></a> ";
                             }
                         } else {
                             echo "No hay enlaces de redes sociales disponibles.";
