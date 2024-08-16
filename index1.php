@@ -1,3 +1,14 @@
+<?php
+include 'includes/db.php';
+
+// Obtener la configuración del sitio
+$query = $conn->query("SELECT * FROM site_config WHERE id = 1");
+$config = $query->fetch_assoc();
+
+// Obtener las propiedades
+$query = $conn->query("SELECT * FROM properties ORDER BY created_at DESC");
+$properties = $query->fetch_all(MYSQLI_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -9,7 +20,49 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/proyecto/css/style.css">
 </head>
+<style>
+    .property {
+  background-color: #f7f7f7; /* fondo blanco */
+  padding: 20px; /* espacio entre el contenido y el borde */
+  border: 1px solid #ddd; /* borde gris claro */
+  border-radius: 10px; /* borde redondeado */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* sombra leve */
+  margin-bottom: 20px; /* espacio entre las propiedades */
+}
 
+.property img {
+  width: 100%; /* ancho del 100% del contenedor */
+  height: 150px; /* alto fijo de 150px */
+  object-fit: cover; /* ajusta la imagen para que se ajuste al contenedor */
+  border-radius: 10px 10px 0 0; /* borde redondeado solo en la parte superior */
+}
+
+.property-info {
+  padding: 20px; /* espacio entre el contenido y el borde */
+}
+
+.property-info h3 {
+  font-weight: bold; /* título en negrita */
+  margin-top: 0; /* no espacio entre el título y el borde superior */
+}
+
+.property-info p {
+  font-size: 16px; /* tamaño de fuente */
+  color: #666; /* color de texto gris claro */
+}
+
+.property-info .btn {
+  background-color: #ffc107; /* botón amarillo */
+  color: #fff; /* texto blanco */
+  padding: 10px 20px; /* espacio entre el texto y el borde */
+  border-radius: 10px; /* borde redondeado */
+  cursor: pointer; /* cursor de mano */
+}
+
+.property-info .btn:hover {
+  background-color: #ffa07a; /* botón amarillo claro al pasar el mouse */
+}
+</style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -61,111 +114,20 @@
     <section class="container my-5">
         <h2 class="section-title">PROPIEDADES DESTACADAS</h2>
         <div class="row">
-            <div class="col-md-4 property">
-                <img src="ruta/a/imagen-propiedad.jpg" alt="Casa Mora">
-                <div class="property-info">
-                    <h3>Casa Mora</h3>
-                    <p>Ubicada en las faldas del volcán Arenal, contiene 1000 mts de terreno y una de las mejores vistas
-                        del lugar</p>
-                    <p>Precio: $65000</p>
-                    <a href="#" class="btn btn-warning">VER MÁS...</a>
+            <?php foreach ($properties as $property): ?>
+                <div class="col-md-4 property">
+                    <img src="img/<?php echo $property['image']; ?>" alt="<?php echo $property['title']; ?>">
+                    <div class="property-info">
+                        <h3><?php echo $property['title']; ?></h3>
+                        <p><?php echo $property['description']; ?></p>
+                        <p>Precio: $<?php echo number_format($property['price'], 2); ?></p>
+                        <a href="property_details.php?id=<?php echo $property['id']; ?>" class="btn btn-warning">VER MÁS...</a>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-4 property">
-                <img src="ruta/a/imagen-propiedad.jpg" alt="Casa Mora">
-                <div class="property-info">
-                    <h3>Casa Mora</h3>
-                    <p>Ubicada en las faldas del volcán Arenal, contiene 1000 mts de terreno y una de las mejores vistas
-                        del lugar</p>
-                    <p>Precio: $65000</p>
-                    <a href="#" class="btn btn-warning">VER MÁS...</a>
-                </div>
-            </div>
-            <div class="col-md-4 property">
-                <img src="ruta/a/imagen-propiedad.jpg" alt="Casa Mora">
-                <div class="property-info">
-                    <h3>Casa Mora</h3>
-                    <p>Ubicada en las faldas del volcán Arenal, contiene 1000 mts de terreno y una de las mejores vistas
-                        del lugar</p>
-                    <p>Precio: $65000</p>
-                    <a href="#" class="btn btn-warning">VER MÁS...</a>
-                </div>
-            </div>
-
+            <?php endforeach; ?>
         </div>
     </section>
 
-    <section class="container my-5">
-        <h2 class="section-title">PROPIEDADES EN VENTA</h2>
-        <div class="row">
-            <div class="col-md-4 property">
-                <img src="ruta/a/imagen-propiedad.jpg" alt="Casa Mora">
-                <div class="property-info">
-                    <h3>Casa Mora</h3>
-                    <p>Ubicada en las faldas del volcán Arenal, contiene 1000 mts de terreno y una de las mejores vistas
-                        del lugar</p>
-                    <p>Precio: $65000</p>
-                    <a href="#" class="btn btn-warning">VER MÁS...</a>
-                </div>
-            </div>
-            <div class="col-md-4 property">
-                <img src="ruta/a/imagen-propiedad.jpg" alt="Casa Mora">
-                <div class="property-info">
-                    <h3>Casa Mora</h3>
-                    <p>Ubicada en las faldas del volcán Arenal, contiene 1000 mts de terreno y una de las mejores vistas
-                        del lugar</p>
-                    <p>Precio: $65000</p>
-                    <a href="#" class="btn btn-warning">VER MÁS...</a>
-                </div>
-            </div>
-            <div class="col-md-4 property">
-                <img src="ruta/a/imagen-propiedad.jpg" alt="Casa Mora">
-                <div class="property-info">
-                    <h3>Casa Mora</h3>
-                    <p>Ubicada en las faldas del volcán Arenal, contiene 1000 mts de terreno y una de las mejores vistas
-                        del lugar</p>
-                    <p>Precio: $65000</p>
-                    <a href="#" class="btn btn-warning">VER MÁS...</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="container my-5">
-        <h2 class="section-title">PROPIEDADES EN ALQUILER</h2>
-        <div class="row">
-            <div class="col-md-4 property">
-                <img src="ruta/a/imagen-propiedad.jpg" alt="Casa Mora">
-                <div class="property-info">
-                    <h3>Casa Mora</h3>
-                    <p>Ubicada en las faldas del volcán Arenal, contiene 1000 mts de terreno y una de las mejores vistas
-                        del lugar</p>
-                    <p>Precio: $800</p>
-                    <a href="#" class="btn btn-warning">VER MÁS...</a>
-                </div>
-            </div>
-            <div class="col-md-4 property">
-                <img src="ruta/a/imagen-propiedad.jpg" alt="Casa Mora">
-                <div class="property-info">
-                    <h3>Casa Mora</h3>
-                    <p>Ubicada en las faldas del volcán Arenal, contiene 1000 mts de terreno y una de las mejores vistas
-                        del lugar</p>
-                    <p>Precio: $800</p>
-                    <a href="#" class="btn btn-warning">VER MÁS...</a>
-                </div>
-            </div>
-            <div class="col-md-4 property">
-                <img src="ruta/a/imagen-propiedad.jpg" alt="Casa Mora">
-                <div class="property-info">
-                    <h3>Casa Mora</h3>
-                    <p>Ubicada en las faldas del volcán Arenal, contiene 1000 mts de terreno y una de las mejores vistas
-                        del lugar</p>
-                    <p>Precio: $800</p>
-                    <a href="#" class="btn btn-warning">VER MÁS...</a>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <footer class="footer">
         <div class="container">

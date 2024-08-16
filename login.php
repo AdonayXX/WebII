@@ -3,8 +3,13 @@ session_start();
 include 'includes/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
+
+    // Verifica si la conexión está funcionando
+    if ($conn->connect_error) {
+        die("Conexión fallida: " . $conn->connect_error);
+    }
 
     $query = $conn->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
     $query->bind_param("ss", $username, $username);  // Permitir login con nombre de usuario o correo
@@ -17,12 +22,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['role'] = $user['role'];
 
+            // Redirección basada en el rol del usuario
             if ($user['role'] === 'admin') {
-                header("Location: admin/index.php");
+                header("Location: index.html");
             } elseif ($user['role'] === 'agent') {
-                header("Location: agent/index.php");
+                header("Location: index.php");
             } else {
-                header("Location: user_dashboard.php");
+                header("Location: index.php");
             }
             exit();
         } else {
@@ -35,34 +41,53 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/login.css">
     <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
-<div class="container my-5">
-    <h2>Iniciar Sesión</h2>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-6 offset-md-3">
+                <div class="card rounded-3">
+                    <div class="card-header loginHeader rounded-4">
+                        <h4 class="text-center">Iniciar sesión</h4>
+                    </div>
+                    <?php if (isset($error)): ?>
+                    <div class="alert alert-danger">
+                        <?php echo $error; ?>
+                    </div>
+                    <?php endif; ?>
+                    <div class="card-body" id="loginForm">
+                        <form action="" method="POST">
+                            <div class="form-group">
+                                <label for="username">Nombre de Usuario o Correo</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
 
-    <?php if (isset($error)): ?>
-        <div class="alert alert-danger">
-            <?php echo $error; ?>
-        </div>
-    <?php endif; ?>
+                            <div class="form-group">
+                                <label for="password">Contraseña</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
 
-    <form action="login.php" method="POST">
-        <div class="mb-3">
-            <label for="username" class="form-label">Usuario o Correo Electrónico</label>
-            <input type="text" class="form-control" id="username" name="username" required>
+                            <button type="submit" class="btn btn-primary mt-3">Iniciar sesión</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-    </form>
-</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
