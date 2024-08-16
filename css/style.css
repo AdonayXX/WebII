@@ -7,17 +7,7 @@ body {
     font-weight: bold;
 }
 
-.hero {
-    background-image: url('../img/DALL·E\ 2024-08-07\ 23.32.02\ -\ A\ futuristic\ blue\ house\ with\ sleek\,\ angular\ lines\ and\ a\ lot\ of\ glass.\ The\ house\ is\ set\ in\ a\ modern\ landscape\ with\ minimalistic\ garden\ design\ and\ advan.webp');
-    background-size: cover;
-    background-position: center;
-    padding: 100px 0;
-    color: white;
-    text-align: center;
-    display: flex;
-    height: 55vh;
 
-}
 
 .hero h1 {
     font-size: 3rem;
