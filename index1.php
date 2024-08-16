@@ -111,22 +111,32 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
         </div>
     </section>
 
-    <section class="container my-5">
-        <h2 class="section-title">PROPIEDADES DESTACADAS</h2>
-        <div class="row">
-            <?php foreach ($properties as $property): ?>
-                <div class="col-md-4 property">
-                    <img src="img/<?php echo $property['image']; ?>" alt="<?php echo $property['title']; ?>">
-                    <div class="property-info">
-                        <h3><?php echo $property['title']; ?></h3>
-                        <p><?php echo $property['description']; ?></p>
-                        <p>Precio: $<?php echo number_format($property['price'], 2); ?></p>
-                        <a href="property_details.php?id=<?php echo $property['id']; ?>" class="btn btn-warning">VER MÁS...</a>
-                    </div>
+   <section class="container my-5">
+    <h2 class="section-title">PROPIEDADES DESTACADAS</h2>
+    <div class="row">
+        <?php 
+        $property_count = 0; // Contador para controlar cuántas propiedades se muestran inicialmente
+        foreach ($properties as $property): 
+            $property_count++;
+        ?>
+            <div class="col-md-4 property <?php echo $property_count > 3 ? 'more-properties' : ''; ?>" style="<?php echo $property_count > 3 ? 'display: none;' : ''; ?>">
+                <img src="img/<?php echo $property['image']; ?>" alt="<?php echo $property['title']; ?>">
+                <div class="property-info">
+                    <h3><?php echo $property['title']; ?></h3>
+                    <p><?php echo $property['description']; ?></p>
+                    <p>Precio: $<?php echo number_format($property['price'], 2); ?></p>
+                    <a href="property_details.php?id=<?php echo $property['id']; ?>" class="btn btn-warning">VER MÁS...</a>
                 </div>
-            <?php endforeach; ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <?php if ($property_count > 3): // Mostrar el botón solo si hay más de 3 propiedades ?>
+        <div class="text-center mt-4">
+            <button id="showMoreBtn" class="btn btn-primary">Ver más</button>
         </div>
-    </section>
+    <?php endif; ?>
+</section>
+
 
 
     <footer class="footer">
@@ -176,6 +186,16 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
     <div class="text-center p-5 finally">
         <p>Derechos Reservados 2024</p>
     </div>
+    <script>
+    document.getElementById('showMoreBtn').addEventListener('click', function() {
+        var moreProperties = document.querySelectorAll('.more-properties');
+        for (var i = 0; i < moreProperties.length; i++) {
+            moreProperties[i].style.display = 'block';
+        }
+        this.style.display = 'none'; // Oculta el botón una vez que se muestran todas las propiedades
+    });
+</script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
