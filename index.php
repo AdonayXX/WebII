@@ -18,121 +18,131 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
     <title>UTN Solutions Real Estate</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="WEBII/css/style.css" <?php echo time(); ?>>
+    <link rel="stylesheet" href="/proyecto/css/style.css?<?php echo time(); ?>">
     <style>
         body {
             background-color: <?php echo $config['primary_color']; ?>;
             color: <?php echo $config['secondary_color']; ?>;
         }
 
+        .navbar-nav .nav-link {
+            color: #EFB820 !important;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
         .hero {
             background-image: url('img/<?php echo $config['hero_image']; ?>?<?php echo time(); ?>');
 
-            background-position: center;
-            padding: 100px 0;
-            color: white;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 55vh;
-        }
-
-        .section-title {
-            color: #EFB820;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .property {
-            margin-bottom: 30px;
-            background-color: #1E2247;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .property:hover {
-            transform: translateY(-10px);
-        }
-
-        .property img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-bottom: 4px solid #EFB820;
-        }
-
-        .property-info {
-            padding: 20px;
-            background-color: #150D3E;
-            color: white;
-        }
-
-        .property-info h3 {
-            color: #EFB820;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-
-        .property-info p {
-            margin-bottom: 10px;
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#"><img src="img/<?php echo $config['banner_image']; ?>?<?php echo time(); ?>" alt="Logo" height="50"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">INICIO</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">QUIENES SOMOS</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">ALQUILERES</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">VENTAS</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">CONTÁCTENOS</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php include 'includes/navbar.php'; ?>
 
     <header class="hero">
         <h1><?php echo $config['banner_text']; ?></h1>
     </header>
 
     <section class="container my-5">
-        <h2 class="section-title">PROPIEDADES DESTACADAS</h2>
+        <h2 class="section-title">Quienes Somos</h2>
         <div class="row">
-            <?php foreach ($properties as $property): ?>
-                <div class="col-md-4 property">
-                    <img src="img/<?php echo $property['image']; ?>" alt="<?php echo $property['title']; ?>">
-                    <div class="property-info">
-                        <h3><?php echo $property['title']; ?></h3>
-                        <p><?php echo $property['description']; ?></p>
-                        <p>Precio: $<?php echo number_format($property['price'], 2); ?></p>
-                        <a href="property_details.php?id=<?php echo $property['id']; ?>" class="btn btn-warning">VER MÁS...</a>
+            <div class="col-md-8">
+                <p><?php echo $config['about_text']; ?></p>
+            </div>
+            <div class="col-md-4">
+                <img src="img/<?php echo $config['about_image']; ?>" alt="Nosotros" class="img-fluid rounded shadow-lg">
+            </div>
+        </div>
+    </section>
+
+    <section class="container my-5">
+        <h2 class="section-title">Propiedades Destacadas</h2>
+        <div class="row">
+            <?php
+            $property_count = 0;
+            foreach ($properties as $property):
+                $property_count++;
+            ?>
+                <div class="col-md-4 <?php echo $property_count > 3 ? 'more-properties' : ''; ?>" style="<?php echo $property_count > 3 ? 'display: none;' : ''; ?>">
+                    <div class="card">
+                        <img src="img/<?php echo $property['image']; ?>" class="card-img-top" alt="<?php echo $property['title']; ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo $property['title']; ?></h5>
+                            <p class="card-text"><?php echo $property['description']; ?></p>
+                            <p class="card-text">Precio: $<?php echo number_format($property['price'], 2); ?></p>
+                            <a href="property_details.php?id=<?php echo $property['id']; ?>" class="btn btn-warning">Ver más...</a>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
+        <?php if ($property_count > 3): ?>
+            <div class="text-center mt-4">
+                <button id="showMoreBtn" class="btn btn-primary">Ver más</button>
+            </div>
+        <?php endif; ?>
+    </section>
+
+    <section class="container my-5">
+        <h2 class="section-title">Alquileres</h2>
+        <div class="row">
+            <?php
+            $property_count = 0;
+            foreach ($properties as $property):
+                if ($property['type'] == 'Alquiler') {
+                    $property_count++;
+            ?>
+                    <div class="col-md-4 <?php echo $property_count > 3 ? 'more-properties' : ''; ?>" style="<?php echo $property_count > 3 ? 'display: none;' : ''; ?>">
+                        <div class="card">
+                            <img src="img/<?php echo $property['image']; ?>" class="card-img-top" alt="<?php echo $property['title']; ?>">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $property['title']; ?></h5>
+                                <p class="card-text"><?php echo $property['description']; ?></p>
+                                <p class="card-text">Mensualidad: $<?php echo number_format($property['price'], 2); ?></p>
+                                <a href="property_details.php?id=<?php echo $property['id']; ?>" class="btn btn-warning">Ver más...</a>
+                            </div>
+                        </div>
+                    </div>
+            <?php }
+            endforeach; ?>
+        </div>
+        <?php if ($property_count > 3): ?>
+            <div class="text-center mt-4">
+                <button id="showMoreBtn" class="btn btn-primary">Ver más</button>
+            </div>
+        <?php endif; ?>
+    </section>
+
+    <section class="container my-5">
+        <h2 class="section-title">Ventas</h2>
+        <div class="row">
+            <?php
+            $property_count = 0;
+            foreach ($properties as $property):
+                if ($property['type'] == 'Venta') {
+                    $property_count++;
+            ?>
+                    <div class="col-md-4 <?php echo $property_count > 3 ? 'more-properties' : ''; ?>" style="<?php echo $property_count > 3 ? 'display: none;' : ''; ?>">
+                        <div class="card">
+                            <img src="img/<?php echo $property['image']; ?>" class="card-img-top" alt="<?php echo $property['title']; ?>">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $property['title']; ?></h5>
+                                <p class="card-text"><?php echo $property['description']; ?></p>
+                                <p class="card-text">Precio: $<?php echo number_format($property['price'], 2); ?></p>
+                                <a href="property_details.php?id=<?php echo $property['id']; ?>" class="btn btn-warning">Ver más...</a>
+                            </div>
+                        </div>
+                    </div>
+            <?php }
+            endforeach; ?>
+        </div>
+        <?php if ($property_count > 3): ?>
+            <div class="text-center mt-4">
+                <button id="showMoreBtn" class="btn btn-primary">Ver más</button>
+            </div>
+        <?php endif; ?>
     </section>
 
     <footer class="footer">
@@ -162,38 +172,53 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
                 <div class="col-md-4">
                     <div class="footer-form">
                         <h4>Contáctanos</h4>
-                        <form>
+                        <form method="POST" id="emailForm" action="form_email.php">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nombre:</label>
-                                <input type="text" class="form-control" id="name">
+                                <input type="text" class="form-control" id="name" name="name" required>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email:</label>
-                                <input type="email" class="form-control" id="email">
+                                <input type="email" class="form-control" id="email" name="email" required>
                             </div>
                             <div class="mb-3">
                                 <label for="phone" class="form-label">Teléfono:</label>
-                                <input type="text" class="form-control" id="phone">
+                                <input type="text" class="form-control" id="phone" name="phone" required>
                             </div>
                             <div class="mb-3">
                                 <label for="message" class="form-label">Mensaje:</label>
-                                <textarea class="form-control" id="message" rows="3"></textarea>
+                                <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Enviar</button>
+                            <div class="captcha mt-5">
+                                <div class="g-recaptcha" data-sitekey="6Ld3QSkqAAAAAAcjkV0q4sUYp7c71Cqg_G8y_UQv">
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
-
-    <div class="text-center p-5 finally">
-        <p>Derechos Reservados 2024</p>
-    </div>
+    <div class="finally">
+            <p class="text-center">Derechos Reservados 2024</p>
+        </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <script>
+        document.getElementById('showMoreBtn').addEventListener('click', function() {
+            var moreProperties = document.querySelectorAll('.more-properties');
+            for (var i = 0; i < moreProperties.length; i++) {
+                moreProperties[i].style.display = 'block';
+            }
+            this.style.display = 'none'; // Oculta el botón una vez que se muestran todas las propiedades
+        });
+    </script>
+
 </body>
 
 </html>

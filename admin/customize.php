@@ -2,7 +2,6 @@
 session_start();
 include '../includes/db.php';
 
-// Asegúrate de que solo el administrador pueda acceder a esta página
 // if ($_SESSION['role'] !== 'admin') {
 //     header("Location: ../index.php");
 //     exit();

@@ -2,17 +2,18 @@
 session_start();
 include 'includes/db.php';
 
+$showToast = false; 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    // Verifica si la conexión está funcionando
     if ($conn->connect_error) {
         die("Conexión fallida: " . $conn->connect_error);
     }
 
     $query = $conn->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
-    $query->bind_param("ss", $username, $username);  // Permitir login con nombre de usuario o correo
+    $query->bind_param("ss", $username, $username);
     $query->execute();
     $result = $query->get_result();
 
@@ -22,9 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['role'] = $user['role'];
 
-            // Redirección basada en el rol del usuario
             if ($user['role'] === 'admin') {
-                header("Location: index.html");
+                header("Location: index.php");
             } elseif ($user['role'] === 'agent') {
                 header("Location: index.php");
             } else {
@@ -32,16 +32,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             exit();
         } else {
-            $error = "Contraseña incorrecta.";
+            $errorMessage = "Contraseña incorrecta.";
+            $showToast = true;
         }
     } else {
-        $error = "Usuario o correo no encontrado.";
+        $errorMessage = "Usuario o correo no encontrado.";
+        $showToast = true;
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -52,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Login</title>
 </head>
 
-<body>
+<body id="body">
     <div class="container">
         <div class="row mt-5">
             <div class="col-md-6 offset-md-3">
@@ -60,24 +62,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="card-header loginHeader rounded-4">
                         <h4 class="text-center">Iniciar sesión</h4>
                     </div>
-                    <?php if (isset($error)): ?>
-                    <div class="alert alert-danger">
-                        <?php echo $error; ?>
-                    </div>
-                    <?php endif; ?>
                     <div class="card-body" id="loginForm">
-                        <form action="" method="POST">
+                        <form action="login.php" method="POST">
                             <div class="form-group">
                                 <label for="username">Nombre de Usuario o Correo</label>
                                 <input type="text" class="form-control" id="username" name="username" required>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group mt-3">
                                 <label for="password">Contraseña</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
-
-                            <button type="submit" class="btn btn-primary mt-3">Iniciar sesión</button>
+                            <div class="text-center mt-3">
+                                <a href="formRegister.php">¿No tienes una cuenta? Regístrate</a>
+                            </div>
+                            <div class="text-center mt-2">
+                                <a href="index.php">Volver al inicio</a>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3 w-100 buttonLogin">Iniciar sesión</button>
                         </form>
                     </div>
                 </div>
@@ -85,9 +87,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 
+    <!-- Toast de error -->
+    <?php if ($showToast): ?>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="errorToast" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive"
+            aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <?php echo $errorMessage; ?>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+
+    <script>
+
+    <?php if ($showToast): ?>
+    var toastEl = document.getElementById('errorToast');
+    var toast = new bootstrap.Toast(toastEl);
+    toast.show();
+    <?php endif; ?>
+    </script>
 </body>
 
 </html>
