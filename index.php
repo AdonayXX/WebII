@@ -165,6 +165,18 @@ if (json_last_error() !== JSON_ERROR_NONE) {
                 <p><strong>Teléfono:</strong> <?php echo $telefono; ?></p>
                 <p><strong>Email:</strong> <?php echo $email; ?></p>
             </div>
+            <div class="text-center">
+                <img src="img/<?php echo $config['banner_image']; ?>?<?php echo time(); ?>" alt="Logo" height="50" class="mb-3">
+                <ul class="list-inline">
+                    <?php foreach ($social_links as $platform => $link): ?>
+                        <li class="list-inline-item">
+                            <a href="<?php echo $link; ?>" target="_blank" class="text-dark">
+                                <i class="fab fa-<?php echo strtolower($platform); ?> fa-2x"></i>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
 
                 <div class="col-md-4">
                     <div class="footer-form">
