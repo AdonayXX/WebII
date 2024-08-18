@@ -62,31 +62,6 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
 .property-info .btn:hover {
   background-color: #ffa07a; /* botón amarillo claro al pasar el mouse */
 }
-.bannerimg {
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 400px; /* Altura del banner */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.hero {
-    text-align: center;
-    color: white; /* Cambia el color del texto según la imagen de fondo */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Sombra para el texto */
-}
-
-.hero h1 {
-    font-size: 48px; /* Tamaño de la fuente del texto */
-    margin: 0;
-    padding: 0 20px;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente detrás del texto */
-    border-radius: 10px; /* Bordes redondeados */
-}
-
-
 </style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -118,12 +93,9 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
         </div>
     </nav>
 
-    <div class="bannerimg" style="background-image: url('img/<?php echo $config['banner_image']; ?>'); background-size: cover; background-position: center;">
     <header class="hero">
-        <h1><?php echo $config['banner_text']; ?></h1>
+        <h1 class="">PERMÍTENOS AYUDARTE A CUMPLIR TUS SUEÑOS</h1>
     </header>
-</div>
-
 
     <section class="container my-5">
         <h2 class="section-title">QUIENES SOMOS</h2>
@@ -134,7 +106,7 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
                     himenaeos. Morbi pretium erat a auctor tristique.</p>
             </div>
             <div class="col-md-4">
-            <img src="img/<?php echo $config['about_image']; ?>" alt="Quiénes somos" class="img-fluid">
+                <img src="ruta/a/imagen.jpg" alt="Quiénes somos" class="img-fluid">
             </div>
         </div>
     </section>

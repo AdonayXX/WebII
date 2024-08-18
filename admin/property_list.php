@@ -1,7 +1,10 @@
 <?php
 session_start();
 include '../includes/db.php';
-
+if ($_SESSION['role'] !== 'admin') {
+    header("Location: ../index.php");
+    exit();
+}
 
 $query = $conn->query("SELECT * FROM properties ORDER BY created_at DESC");
 $properties = $query->fetch_all(MYSQLI_ASSOC);
