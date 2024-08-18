@@ -1,27 +1,65 @@
+body {
+    background-color: #f0f4f8;
+}
+
+/* Header del login */
 .loginHeader {
-    background-color: #EFB820 !important;
+    background-color: #ff6f61;
     padding: 20px 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
+/* Texto del header */
 .loginHeader>h4 {
-    color: #150D3E;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
 }
 
+/* Tarjeta de login */
 .card {
-    background-color: #150D3E;
-    color: white;
+    background-color: #ffffff;
+    color: #333333;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Botón de login */
 .buttonLogin {
-    background-color: #EFB820 !important;
-    color: #150D3E;
-    border-radius: 5px;
+    background-color: #28a745 !important;
+    color: #ffffff;
+    border-radius: 50px;
     padding: 10px 20px;
     margin-top: 20px;
+    border: none;
+    transition: background-color 0.3s ease;
 }
-#body{
-  background-color: #E4E4E4;
+
+/* Hover del botón de login */
+.buttonLogin:hover {
+    background-color: #218838 !important;
+}
+
+/* Estilo de enlaces */
+.text-center a {
+    color: #ff6f61;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.text-center a:hover {
+    color: #e55e50;
+}
+
+/* Toast de error */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 11;
+}
+
+.toast-body {
+    font-weight: bold;
 }

@@ -36,8 +36,8 @@ include 'property_save.php';
         <div class="mb-3">
             <label for="type" class="form-label">Tipo:</label>
             <select class="form-control" id="type" name="type" required>
-                <option value="sale" <?php echo isset($property['type']) && $property['type'] == 'sale' ? 'selected' : ''; ?>>Venta</option>
-                <option value="rent" <?php echo isset($property['type']) && $property['type'] == 'rent' ? 'selected' : ''; ?>>Alquiler</option>
+                <option value="Venta" <?php echo isset($property['type']) && $property['type'] == 'Venta' ? 'selected' : ''; ?>>Venta</option>
+                <option value="Alquiler" <?php echo isset($property['type']) && $property['type'] == 'Alquiler' ? 'selected' : ''; ?>>Alquiler</option>
             </select>
         </div>
         <div class="mb-3">

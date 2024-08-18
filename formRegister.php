@@ -44,6 +44,8 @@
                                 <label for="password">Contraseña:</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
+                            <!-- volver a index.php -->
+                            <a href="index.php" class="btn btn-secondary mt-3">Volver</a>
 
                             <button type="submit" class="btn btn-primary mt-3">Registrarse</button>
                         </form>

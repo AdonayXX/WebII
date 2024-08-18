@@ -2,11 +2,10 @@
 session_start();
 include '../includes/db.php';
 
-// Asegúrate de que solo el administrador pueda acceder a esta página
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../index.php");
-    exit();
-}
+// if ($_SESSION['role'] !== 'admin') {
+//     header("Location: ../index.php");
+//     exit();
+// }
 
 // Obtener la configuración actual del sitio
 $query = $conn->query("SELECT * FROM site_config WHERE id = 1");

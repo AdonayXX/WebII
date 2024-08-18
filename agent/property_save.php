@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 include '../includes/db.php';
@@ -39,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($is_editing) {
         // Actualizar propiedad existente
         $query = $conn->prepare("UPDATE properties SET title = ?, description = ?, price = ?, type = ?, is_featured = ?, image = ? WHERE id = ? AND (user_id = ? OR ? = 'admin')");
-        $query->bind_param("ssdsisii", $title, $description, $price, $type, $is_featured, $image, $property_id, $_SESSION['user_id'], $_SESSION['role']);
+        $query->bind_param("ssdsisiis", $title, $description, $price, $type, $is_featured, $image, $property_id, $_SESSION['user_id'], $_SESSION['role']);
     } else {
         // Crear nueva propiedad
         $query = $conn->prepare("INSERT INTO properties (title, description, price, type, is_featured, image, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -47,8 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if ($query->execute()) {
-        header("Location: property_list.php");
-        exit();
     } else {
         $error = "Error al guardar la propiedad.";
     }
