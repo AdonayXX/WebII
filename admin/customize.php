@@ -3,11 +3,12 @@ session_start();
 include '../includes/db.php';
 
 // Asegúrate de que solo el administrador pueda acceder a esta página
-// if ($_SESSION['role'] !== 'admin') {
-//     header("Location: ../index.php");
-//     exit();
-// }
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../index.php");
+    exit();
+}
 
+// Obtener la configuración actual del sitio
 $query = $conn->query("SELECT * FROM site_config WHERE id = 1");
 $config = $query->fetch_assoc();
 
@@ -20,8 +21,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $phone = $_POST['phone'];
     $email = $_POST['email'];
 
-    $social_links = $_POST['social_links'];
-    $social_links_json = is_array($social_links) ? json_encode($social_links, JSON_UNESCAPED_SLASHES) : $config['social_links'];
+    // Procesar los enlaces de redes sociales
+    $social_links = [];
+    foreach ($_POST['social_name'] as $index => $name) {
+        $url = $_POST['social_url'][$index];
+        if (!empty($name) && !empty($url)) {
+            $social_links[$name] = $url;
+        }
+    }
+    $social_links_json = json_encode($social_links, JSON_UNESCAPED_SLASHES);
 
     $banner_image = $config['banner_image'];
     $about_image = $config['about_image'];
@@ -42,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         move_uploaded_file($_FILES['hero_image']['tmp_name'], "../img/$hero_image");
     }
 
+    // Actualizar la configuración en la base de datos
     $query = $conn->prepare("UPDATE site_config SET primary_color = ?, secondary_color = ?, banner_text = ?, about_text = ?, address = ?, phone = ?, email = ?, social_links = ?, banner_image = ?, about_image = ?, hero_image = ? WHERE id = 1");
     $query->bind_param("sssssssssss", $primary_color, $secondary_color, $banner_text, $about_text, $address, $phone, $email, $social_links_json, $banner_image, $about_image, $hero_image);
 
@@ -51,7 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error_message = "Error al actualizar la configuración.";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -125,15 +133,58 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="email" class="form-label">Correo Electrónico</label>
                 <input type="email" class="form-control" id="email" name="email" value="<?php echo $config['email']; ?>" required>
             </div>
+
+            <!-- Enlaces de Redes Sociales -->
             <div class="mb-3">
-                <label for="social_links" class="form-label">Enlaces a Redes Sociales (JSON)</label>
-                <textarea class="form-control" id="social_links" name="social_links" required><?php echo $config['social_links']; ?></textarea>
+                <label class="form-label">Enlaces a Redes Sociales</label>
+                <div id="social-links-container">
+                    <?php
+                    $social_links = json_decode($config['social_links'], true);
+                    if (!empty($social_links)):
+                        foreach ($social_links as $name => $url):
+                    ?>
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" name="social_name[]" value="<?php echo htmlspecialchars($name); ?>" placeholder="Nombre de la red social" required>
+                                <input type="url" class="form-control" name="social_url[]" value="<?php echo htmlspecialchars($url); ?>" placeholder="URL de la red social" required>
+                            </div>
+                    <?php
+                        endforeach;
+                    endif;
+                    ?>
+                </div>
+                <button type="button" class="btn btn-secondary" id="add-social-link">Añadir otra red social</button>
             </div>
+
             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         </form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('add-social-link').addEventListener('click', function () {
+            var container = document.getElementById('social-links-container');
+            var inputGroup = document.createElement('div');
+            inputGroup.classList.add('input-group', 'mb-2');
+
+            var nameInput = document.createElement('input');
+            nameInput.type = 'text';
+            nameInput.name = 'social_name[]';
+            nameInput.classList.add('form-control');
+            nameInput.placeholder = 'Nombre de la red social';
+            nameInput.required = true;
+
+            var urlInput = document.createElement('input');
+            urlInput.type = 'url';
+            urlInput.name = 'social_url[]';
+            urlInput.classList.add('form-control');
+            urlInput.placeholder = 'URL de la red social';
+            urlInput.required = true;
+
+            inputGroup.appendChild(nameInput);
+            inputGroup.appendChild(urlInput);
+            container.appendChild(inputGroup);
+        });
+    </script>
 </body>
 
 </html>

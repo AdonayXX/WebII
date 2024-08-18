@@ -1,10 +1,7 @@
 <?php
 session_start();
 include '../includes/db.php';
-if ($_SESSION['role'] !== 'admin') {
-    header("Location: ../index.php");
-    exit();
-}
+
 
 $property = null;
 

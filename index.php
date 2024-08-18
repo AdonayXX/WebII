@@ -5,9 +5,21 @@ include 'includes/db.php';
 $query = $conn->query("SELECT * FROM site_config WHERE id = 1");
 $config = $query->fetch_assoc();
 
+$direccion = $config['address'];
+$telefono = $config['phone'];
+$email = $config['email'];
 // Obtener las propiedades
 $query = $conn->query("SELECT * FROM properties ORDER BY created_at DESC");
 $properties = $query->fetch_all(MYSQLI_ASSOC);
+
+
+// Verificar si 'social_links' no está vacío y es un JSON válido
+$social_links = !empty($config['social_links']) ? json_decode($config['social_links'], true) : [];
+
+// Si el JSON no es válido, manejar el error
+if (json_last_error() !== JSON_ERROR_NONE) {
+    $social_links = []; // Opcional: también puedes manejar el error de otra manera
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -19,6 +31,8 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="WEBII/css/style.css" <?php echo time(); ?>>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
         body {
             background-color: <?php echo $config['primary_color']; ?>;
@@ -26,8 +40,9 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
         }
 
         .hero {
-            background-image: url('img/<?php echo $config['hero_image']; ?>?<?php echo time(); ?>');
-
+            background-image: url('./img/<?php echo $config['hero_image']; ?>?<?php echo time(); ?>');
+            background-repeat: no-repeat;
+            background-size: cover;
             background-position: center;
             padding: 100px 0;
             color: white;
@@ -121,8 +136,12 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
     <section class="container my-5">
         <h2 class="section-title">PROPIEDADES DESTACADAS</h2>
         <div class="row">
-            <?php foreach ($properties as $property): ?>
-                <div class="col-md-4 property">
+            <?php 
+            $property_count = 0; // Contador para controlar cuántas propiedades se muestran inicialmente
+            foreach ($properties as $property): 
+                $property_count++;
+            ?>
+                <div class="col-md-4 property <?php echo $property_count > 3 ? 'more-properties' : ''; ?>" style="<?php echo $property_count > 3 ? 'display: none;' : ''; ?>">
                     <img src="img/<?php echo $property['image']; ?>" alt="<?php echo $property['title']; ?>">
                     <div class="property-info">
                         <h3><?php echo $property['title']; ?></h3>
@@ -133,63 +152,81 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
                 </div>
             <?php endforeach; ?>
         </div>
+        <?php if ($property_count > 3): // Mostrar el botón solo si hay más de 3 propiedades ?>
+            <div class="text-center mt-4">
+                <button id="togglePropertiesBtn" class="btn btn-primary">Ver más</button>
+            </div>
+        <?php endif; ?>
     </section>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 contact-info">
-                    <p><strong>Dirección:</strong> <?php echo $config['address']; ?></p>
-                    <p><strong>Teléfono:</strong> <?php echo $config['phone']; ?></p>
-                    <p><strong>Email:</strong> <a href="mailto:<?php echo $config['email']; ?>"><?php echo $config['email']; ?></a></p>
-                </div>
-                <div class="col-md-4 text-center">
-                    <img src="img/<?php echo $config['banner_image']; ?>" alt="Logo" height="50">
-                    <div class="social-icons mt-3">
-                        <?php
-                        $social_links = json_decode($config['social_links'], true);
-                        if (is_array($social_links)) {
-                            foreach ($social_links as $link) {
-                                echo "<a href=\"$link\"><img src=\"img/facebook-icon.png\" alt=\"Red Social\" height=\"30\"></a> ";
-                            }
-                        } else {
-                            echo "No hay enlaces de redes sociales disponibles.";
-                        }
-                        ?>
-                    </div>
-                </div>
+    <footer class="footer py-5">
+        <div class="container d-flex justify-content-between align-items-center">
+            <!-- Sección de información de contacto -->
+            <div>
+                <p><strong>Dirección:</strong> <?php echo $direccion; ?></p>
+                <p><strong>Teléfono:</strong> <?php echo $telefono; ?></p>
+                <p><strong>Email:</strong> <?php echo $email; ?></p>
+            </div>
 
-                <div class="col-md-4">
-                    <div class="footer-form">
-                        <h4>Contáctanos</h4>
-                        <form>
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Nombre:</label>
-                                <input type="text" class="form-control" id="name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email:</label>
-                                <input type="email" class="form-control" id="email">
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Teléfono:</label>
-                                <input type="text" class="form-control" id="phone">
-                            </div>
-                            <div class="mb-3">
-                                <label for="message" class="form-label">Mensaje:</label>
-                                <textarea class="form-control" id="message" rows="3"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Enviar</button>
-                        </form>
+            <!-- Sección de redes sociales -->
+            <div class="text-center">
+                <img src="img/<?php echo $config['banner_image']; ?>?<?php echo time(); ?>" alt="Logo" height="50" class="mb-3">
+                <ul class="list-inline">
+                    <?php foreach ($social_links as $platform => $link): ?>
+                        <li class="list-inline-item">
+                            <a href="<?php echo $link; ?>" target="_blank" class="text-dark">
+                                <i class="fab fa-<?php echo strtolower($platform); ?> fa-2x"></i>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+
+            <!-- Sección del formulario de contacto -->
+            <div class="bg-light p-4 rounded">
+                <h5 class="text-center mb-3">Contáctanos</h5>
+                <form action="contact_process.php" method="POST">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
                     </div>
-                </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono:</label>
+                        <input type="text" class="form-control" id="telefono" name="telefono" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mensaje" class="form-label">Mensaje:</label>
+                        <textarea class="form-control" id="mensaje" name="mensaje" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                </form>
             </div>
         </div>
     </footer>
-
     <div class="text-center p-5 finally">
         <p>Derechos Reservados 2024</p>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous">
+    </script>
+    <script>
+    document.getElementById('togglePropertiesBtn').addEventListener('click', function() {
+        var moreProperties = document.querySelectorAll('.more-properties');
+        var btn = document.getElementById('togglePropertiesBtn');
+        var isShowingMore = moreProperties[0].style.display === 'block';
+
+        for (var i = 0; i < moreProperties.length; i++) {
+            moreProperties[i].style.display = isShowingMore ? 'none' : 'block';
+        }
+
+        btn.textContent = isShowingMore ? 'Ver más' : 'Ver menos';
+    });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
