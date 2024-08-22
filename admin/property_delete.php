@@ -1,5 +1,7 @@
 <?php
+include '../includes/navbar.php';
 include '../includes/db.php';
+include '../includes/site_config.php';
 
 // Eliminar propiedad
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -36,6 +38,12 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Propiedades</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: <?php echo $config['primary_color']; ?>;
+            color: <?php echo $config['secondary_color']; ?>;
+        }
+    </style>
 </head>
 <body>
 <div class="container my-5">

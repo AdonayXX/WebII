@@ -1,6 +1,7 @@
 <?php
-session_start();
+include 'includes/navbar.php';  
 include 'includes/db.php';
+include 'includes/site_config.php';
 
 $showToast = false; 
 
@@ -24,9 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['role'] = $user['role'];
 
             if ($user['role'] === 'admin') {
-                header("Location: index.php");
+                header("Location: /proyecto/admin/admin_dashboard.php");
             } elseif ($user['role'] === 'agent') {
-                header("Location: index.php");
+                header("Location: /proyecto/agent/agent_dashboard.php");
             } else {
                 header("Location: index.php");
             }
@@ -41,7 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+<style>
+   #body {
+        background-color: <?php echo $config['primary_color']; ?>;
+        color: <?php echo $config['secondary_color']; ?>;
 
+    }
+</style>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -50,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/login.css" <?php echo time(); ?>>
     <title>Login</title>
 </head>
 
@@ -78,6 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="text-center mt-2">
                                 <a href="index.php">Volver al inicio</a>
+                            </div>
+                            <div class="text-center mt-2">
+                                <a href="cambiar_contrasena.php">¿Olvidaste tu contraseña?</a>
                             </div>
                             <button type="submit" class="btn btn-primary mt-3 w-100 buttonLogin">Iniciar sesión</button>
                         </form>

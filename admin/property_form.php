@@ -1,6 +1,7 @@
 <?php
-session_start();
 include '../includes/db.php';
+include '../includes/site_config.php';
+include '../includes/navbar.php';
 if ($_SESSION['role'] !== 'admin') {
     header("Location: ../index.php");
     exit();
@@ -25,6 +26,7 @@ if (isset($_GET['id'])) {
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,12 +34,8 @@ if (isset($_GET['id'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-        }
-
-        .container {
-            margin-top: 50px;
+            background-color: <?php echo $config['primary_color']; ?>;
+            color: <?php echo $config['secondary_color']; ?>;
         }
 
         .form-label {
@@ -55,7 +53,8 @@ if (isset($_GET['id'])) {
             border-color: #0f0a29;
         }
 
-        .form-control, .form-select {
+        .form-control,
+        .form-select {
             border-color: #150D3E;
         }
 
@@ -64,7 +63,9 @@ if (isset($_GET['id'])) {
             border-color: #EFB820;
         }
 
-        .btn-primary, .btn-primary:hover, .btn-primary:focus {
+        .btn-primary,
+        .btn-primary:hover,
+        .btn-primary:focus {
             background-color: #150D3E;
             border-color: #150D3E;
         }
@@ -79,13 +80,14 @@ if (isset($_GET['id'])) {
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
+    <div class="container mt-5">
         <h2 class="mb-4"><?php echo isset($property) ? 'Editar Propiedad' : 'Nueva Propiedad'; ?></h2>
-        
+
         <form action="property_save.php" method="POST" enctype="multipart/form-data" class="bg-white p-4 border rounded">
             <input type="hidden" name="property_id" value="<?php echo isset($property['id']) ? $property['id'] : ''; ?>">
-            
+
             <div class="mb-3">
                 <label for="title" class="form-label">Título:</label>
                 <input type="text" id="title" name="title" class="form-control" value="<?php echo isset($property['title']) ? $property['title'] : ''; ?>" required>
@@ -134,4 +136,5 @@ if (isset($_GET['id'])) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
+
 </html>

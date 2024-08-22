@@ -1,5 +1,8 @@
 
 <?php
+include '../includes/navbar.php';    
+include '../includes/db.php';
+include '../includes/site_config.php';
 include 'property_save.php';
 ?>
 <!DOCTYPE html>
@@ -9,6 +12,12 @@ include 'property_save.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $is_editing ? 'Editar Propiedad' : 'Nueva Propiedad'; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: <?php echo $config['primary_color']; ?>;
+            color: <?php echo $config['secondary_color']; ?>;
+        }
+    </style>
 </head>
 <body>
 <div class="container my-5">

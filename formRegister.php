@@ -1,3 +1,6 @@
+<?php include 'includes/navbar.php';
+include 'includes/site_config.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,6 +12,12 @@
     <link rel="stylesheet" href="css/login.css">
     <title>Registro</title>
 </head>
+<style>
+    body {
+        background-color: <?php echo $config['primary_color']; ?>;
+        color: <?php echo $config['secondary_color']; ?>;
+    }
+</style>
 
 <body>
     <div class="container">

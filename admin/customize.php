@@ -1,11 +1,12 @@
 <?php
-session_start();
+include '../includes/navbar.php';
+include '../includes/site_config.php';
 include '../includes/db.php';
 
-// if ($_SESSION['role'] !== 'admin') {
-//     header("Location: ../index.php");
-//     exit();
-// }
+if ($_SESSION['role'] !== 'admin') {
+    header("Location: ../index.php");
+    exit();
+}
 
 // Obtener la configuración actual del sitio
 $query = $conn->query("SELECT * FROM site_config WHERE id = 1");
@@ -32,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $banner_image = $config['banner_image'];
     $about_image = $config['about_image'];
-    $hero_image = $config['hero_image'];  
+    $hero_image = $config['hero_image'];
 
     if (!empty($_FILES['banner_image']['name'])) {
         $banner_image = $_FILES['banner_image']['name'];
@@ -69,6 +70,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personalizar Página - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: <?php echo $config['primary_color']; ?>;
+            color: <?php echo $config['secondary_color']; ?>;
+        }
+    </style>
 </head>
 
 <body>
@@ -160,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('add-social-link').addEventListener('click', function () {
+        document.getElementById('add-social-link').addEventListener('click', function() {
             var container = document.getElementById('social-links-container');
             var inputGroup = document.createElement('div');
             inputGroup.classList.add('input-group', 'mb-2');

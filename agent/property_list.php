@@ -1,6 +1,8 @@
 <?php
-session_start();
+include '../includes/navbar.php';
+include '../includes/site_config.php';
 include '../includes/db.php';
+
 
 // Verifica que el usuario sea un agente o administrador
 if ($_SESSION['role'] !== 'agent' && $_SESSION['role'] !== 'admin') {
@@ -22,6 +24,12 @@ $properties = $query->get_result()->fetch_all(MYSQLI_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Propiedades</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: <?php echo $config['primary_color']; ?>;
+            color: <?php echo $config['secondary_color']; ?>;
+        }
+    </style>
 </head>
 <body>
 <div class="container my-5">
