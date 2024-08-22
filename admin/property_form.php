@@ -81,7 +81,7 @@ if (isset($_GET['id'])) {
 </head>
 
 <body>
-    <div class="container mt-5">
+    <div class="container mt-5 p-5">
         <h2 class="mb-4"><?php echo isset($property) ? 'Editar Propiedad' : 'Nueva Propiedad'; ?></h2>
 
         <form action="property_save.php" method="POST" enctype="multipart/form-data" class="bg-white p-4 border rounded">

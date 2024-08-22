@@ -28,8 +28,9 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
 </head>
 <body>
 
-<div class="container">
+<div class="container mt-5 p-5">
     <h2 class="my-4">Lista de Propiedades</h2>
+    <div class="table-responsive">
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -63,6 +64,8 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
             <?php endforeach; ?>
         </tbody>
     </table>
+ 
+</div>
 </div>
 
 <!-- Modal para Editar Propiedad -->

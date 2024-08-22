@@ -23,7 +23,7 @@ include 'management.php';
 </head>
 
 <body>
-    <div class="container my-5">
+    <div class="container mt-5 p-3">
         <h2>Gestión de Usuarios</h2>
 
         <?php if (isset($success)): ?>
@@ -37,73 +37,75 @@ include 'management.php';
                 <?php echo $error; ?>
             </div>
         <?php endif; ?>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Teléfono</th>
-                    <th>Correo</th>
-                    <th>Usuario</th>
-                    <th>Rol</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($users as $user): ?>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
                     <tr>
-                        <td><?php echo $user['id']; ?></td>
-                        <td><?php echo $user['name']; ?></td>
-                        <td><?php echo $user['phone']; ?></td>
-                        <td><?php echo $user['email']; ?></td>
-                        <td><?php echo $user['username']; ?></td>
-                        <td><?php echo $user['role']; ?></td>
-                        <td>
-                            <form action="user_management.php" method="POST">
-                                <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
-                                <select name="role">
-                                    <option value="user" <?php echo $user['role'] == 'user' ? 'selected' : ''; ?>>Usuario</option>
-                                    <option value="agent" <?php echo $user['role'] == 'agent' ? 'selected' : ''; ?>>Agente</option>
-                                    <option value="admin" <?php echo $user['role'] == 'admin' ? 'selected' : ''; ?>>Administrador</option>
-                                </select>
-                                <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>
-                                <!-- eliminaer usuario -->
-                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal<?php echo $user['id']; ?>">
-                                    Eliminar
-                                </button>
-                                <!-- Modal para Eliminar Usuario -->
-                                <div class="modal fade text-dark" id="deleteModal<?php echo $user['id']; ?>" tabindex="-1"
-                                    aria-labelledby="deleteModalLabel<?php echo $user['id']; ?>" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteModalLabel<?php echo $user['id']; ?>">Eliminar
-                                                    Usuario</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Cerrar"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                ¿Estás seguro de que deseas eliminar a <?php echo $user['name']; ?>?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Cancelar</button>
-                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Correo</th>
+                        <th>Usuario</th>
+                        <th>Rol</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($users as $user): ?>
+                        <tr>
+                            <td><?php echo $user['id']; ?></td>
+                            <td><?php echo $user['name']; ?></td>
+                            <td><?php echo $user['phone']; ?></td>
+                            <td><?php echo $user['email']; ?></td>
+                            <td><?php echo $user['username']; ?></td>
+                            <td><?php echo $user['role']; ?></td>
+                            <td>
+                                <form action="user_management.php" method="POST">
+                                    <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
+                                    <select name="role">
+                                        <option value="user" <?php echo $user['role'] == 'user' ? 'selected' : ''; ?>>Usuario</option>
+                                        <option value="agent" <?php echo $user['role'] == 'agent' ? 'selected' : ''; ?>>Agente</option>
+                                        <option value="admin" <?php echo $user['role'] == 'admin' ? 'selected' : ''; ?>>Administrador</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>
+                                    <!-- eliminaer usuario -->
+                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal<?php echo $user['id']; ?>">
+                                        Eliminar
+                                    </button>
+                                    <!-- Modal para Eliminar Usuario -->
+                                    <div class="modal fade text-dark" id="deleteModal<?php echo $user['id']; ?>" tabindex="-1"
+                                        aria-labelledby="deleteModalLabel<?php echo $user['id']; ?>" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel<?php echo $user['id']; ?>">Eliminar
+                                                        Usuario</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Cerrar"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    ¿Estás seguro de que deseas eliminar a <?php echo $user['name']; ?>?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-        
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
+
 </body>
 
 </html>

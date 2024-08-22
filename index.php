@@ -27,8 +27,7 @@ if (json_last_error() !== JSON_ERROR_NONE) {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/proyecto/css/style.css?<?php echo time(); ?>">
-    <link rel="stylesheet" href="/proyecto/css/animation.css?<?php echo time();?>">
-    <link rel="stylesheet" href="/proyecto/css/loader.css?<?php echo time();?>">
+    <link rel="stylesheet" href="/proyecto/css/animation.css?<?php echo time(); ?>">
     <style>
         body {
             background-color: <?php echo htmlspecialchars($config['primary_color']); ?>;
@@ -74,80 +73,80 @@ if (json_last_error() !== JSON_ERROR_NONE) {
     </section>
 
     <section class="container my-5">
-    <h2 class="section-title">Propiedades Destacadas</h2>
-    <div class="row" id="featured-properties">
-        <?php
-        $property_count = 0;
-        foreach ($properties as $property):
-            if ($property['is_featured']) {
-                $property_count++;
-        ?>
-                <div class="col-md-4 property <?php echo $property_count > 3 ? 'more-properties-featured' : ''; ?>" style="<?php echo $property_count > 3 ? 'display: none;' : ''; ?>">
-                    <div class="card h-100">
-                        <img src="img/<?php echo htmlspecialchars($property['image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($property['title']); ?>">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title"><?php echo htmlspecialchars($property['title']); ?></h5>
-                            <p class="card-text"><?php echo htmlspecialchars($property['description']); ?></p>
-                            <p class="card-text">Agente: <?php echo htmlspecialchars($property['agent_name']); ?></p>
-                            <p class="card-text mt-auto">Precio: $<?php echo number_format($property['price'], 2); ?></p>
-                            <a href="property_details.php?id=<?php echo htmlspecialchars($property['id']); ?>" class="btn btn-warning mt-auto">Ver más...</a>
+        <h2 class="section-title">Propiedades Destacadas</h2>
+        <div class="row" id="featured-properties">
+            <?php
+            $property_count = 0;
+            foreach ($properties as $property):
+                if ($property['is_featured']) {
+                    $property_count++;
+            ?>
+                    <div class="col-md-4 property <?php echo $property_count > 3 ? 'more-properties-featured' : ''; ?>" style="<?php echo $property_count > 3 ? 'display: none;' : ''; ?>">
+                        <div class="card h-100">
+                            <img src="img/<?php echo htmlspecialchars($property['image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($property['title']); ?>">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title"><?php echo htmlspecialchars($property['title']); ?></h5>
+                                <p class="card-text"><?php echo htmlspecialchars($property['description']); ?></p>
+                                <p class="card-text">Agente: <?php echo htmlspecialchars($property['agent_name']); ?></p>
+                                <p class="card-text mt-auto">Precio: $<?php echo number_format($property['price'], 2); ?></p>
+                                <a href="property_details.php?id=<?php echo htmlspecialchars($property['id']); ?>" class="btn btn-warning mt-auto">Ver más...</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-        <?php
-            }
-        endforeach;
-        ?>
-    </div>
-    <?php if ($property_count > 3): ?>
-        <div class="text-center mt-4">
-            <button id="showMoreBtn-featured" class="btn btn-primary">Ver más</button>
-            <button id="showLessBtn-featured" class="btn btn-secondary" style="display: none;">Ver menos</button>
+            <?php
+                }
+            endforeach;
+            ?>
         </div>
-    <?php endif; ?>
-</section>
+        <?php if ($property_count > 3): ?>
+            <div class="text-center mt-4">
+                <button id="showMoreBtn-featured" class="btn btn-primary">Ver más</button>
+                <button id="showLessBtn-featured" class="btn btn-secondary" style="display: none;">Ver menos</button>
+            </div>
+        <?php endif; ?>
+    </section>
 
-<section id="alquileres" class="container my-5">
-    <h2 class="section-title">Alquileres</h2>
-    <div class="row" id="rental-properties">
-        <?php
-        $alquiler_count = 0;
-        foreach ($properties as $property):
-            if ($property['type'] == 'Alquiler') {
-                $alquiler_count++;
-        ?>
-                <div class="col-md-4 property <?php echo $alquiler_count > 3 ? 'more-properties-alquiler' : ''; ?>" style="<?php echo $alquiler_count > 3 ? 'display: none;' : ''; ?>">
-                    <div class="card h-100">
-                        <img src="img/<?php echo htmlspecialchars($property['image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($property['title']); ?>">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title"><?php echo htmlspecialchars($property['title']); ?></h5>
-                            <p class="card-text"><?php echo htmlspecialchars($property['description']); ?></p>
-                            <p class="card-text">Agente: <?php echo htmlspecialchars($property['agent_name']); ?></p>
-                            <p class="card-text mt-auto">Mensualidad: $<?php echo number_format($property['price'], 2); ?></p>
-                            <a href="property_details.php?id=<?php echo htmlspecialchars($property['id']); ?>" class="btn btn-warning mt-auto">Ver más...</a>
+    <section id="alquileres" class="container my-5">
+        <h2 class="section-title">Alquileres</h2>
+        <div class="row" id="rental-properties">
+            <?php
+            $alquiler_count = 0;
+            foreach ($properties as $property):
+                if ($property['type'] == 'Alquiler') {
+                    $alquiler_count++;
+            ?>
+                    <div class="col-md-4 property <?php echo $alquiler_count > 3 ? 'more-properties-alquiler' : ''; ?>" style="<?php echo $alquiler_count > 3 ? 'display: none;' : ''; ?>">
+                        <div class="card h-100">
+                            <img src="img/<?php echo htmlspecialchars($property['image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($property['title']); ?>">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title"><?php echo htmlspecialchars($property['title']); ?></h5>
+                                <p class="card-text"><?php echo htmlspecialchars($property['description']); ?></p>
+                                <p class="card-text">Agente: <?php echo htmlspecialchars($property['agent_name']); ?></p>
+                                <p class="card-text mt-auto">Mensualidad: $<?php echo number_format($property['price'], 2); ?></p>
+                                <a href="property_details.php?id=<?php echo htmlspecialchars($property['id']); ?>" class="btn btn-warning mt-auto">Ver más...</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-        <?php }
-        endforeach; ?>
-    </div>
-    <?php if ($alquiler_count > 3): ?>
-        <div class="text-center mt-4">
-            <button id="showMoreBtn-alquiler" class="btn btn-primary">Ver más</button>
-            <button id="showLessBtn-alquiler" class="btn btn-secondary" style="display: none;">Ver menos</button>
+            <?php }
+            endforeach; ?>
         </div>
-    <?php endif; ?>
-</section>
+        <?php if ($alquiler_count > 3): ?>
+            <div class="text-center mt-4">
+                <button id="showMoreBtn-alquiler" class="btn btn-primary">Ver más</button>
+                <button id="showLessBtn-alquiler" class="btn btn-secondary" style="display: none;">Ver menos</button>
+            </div>
+        <?php endif; ?>
+    </section>
 
-<section id="ventas" class="container my-5">
-    <h2 class="section-title">Ventas</h2>
-    <div class="row" id="sales-properties">
-        <?php
-        $venta_count = 0;
-        foreach ($properties as $property):
-            if ($property['type'] == 'Venta') {
-                $venta_count++;
-        ?>
+    <section id="ventas" class="container my-5">
+        <h2 class="section-title">Ventas</h2>
+        <div class="row" id="sales-properties">
+            <?php
+            $venta_count = 0;
+            foreach ($properties as $property):
+                if ($property['type'] == 'Venta') {
+                    $venta_count++;
+            ?>
                     <div class="col-md-4 property <?php echo $venta_count > 3 ? 'more-properties-ventas' : ''; ?>" style="<?php echo $venta_count > 3 ? 'display: none;' : ''; ?>">
                         <div class="card h-100">
                             <img src="img/<?php echo htmlspecialchars($property['image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($property['title']); ?>">
@@ -161,16 +160,16 @@ if (json_last_error() !== JSON_ERROR_NONE) {
                             </div>
                         </div>
                     </div>
-        <?php }
-        endforeach; ?>
-    </div>
-    <?php if ($venta_count > 3): ?>
-        <div class="text-center mt-4">
-            <button id="showMoreBtn-ventas" class="btn btn-primary">Ver más</button>
-            <button id="showLessBtn-ventas" class="btn btn-secondary" style="display: none;">Ver menos</button>
+            <?php }
+            endforeach; ?>
         </div>
-    <?php endif; ?>
-</section>
+        <?php if ($venta_count > 3): ?>
+            <div class="text-center mt-4">
+                <button id="showMoreBtn-ventas" class="btn btn-primary">Ver más</button>
+                <button id="showLessBtn-ventas" class="btn btn-secondary" style="display: none;">Ver menos</button>
+            </div>
+        <?php endif; ?>
+    </section>
 
     <footer id="contactenos" class="footer py-5">
         <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
@@ -227,36 +226,7 @@ if (json_last_error() !== JSON_ERROR_NONE) {
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script>
-        function toggleShowMoreLess(sectionClass, showMoreBtnId, showLessBtnId) {
-    const showMoreBtn = document.getElementById(showMoreBtnId);
-    const showLessBtn = document.getElementById(showLessBtnId);
-    const properties = document.querySelectorAll(`.${sectionClass}`);
-
-    if (showMoreBtn && showLessBtn) { 
-        showMoreBtn.addEventListener('click', function() {
-            properties.forEach(function(property) {
-                property.style.display = 'block';
-            });
-            showMoreBtn.style.display = 'none';
-            showLessBtn.style.display = 'inline-block';
-        });
-
-        showLessBtn.addEventListener('click', function() {
-            properties.forEach(function(property) {
-                property.style.display = 'none';
-            });
-            showLessBtn.style.display = 'none';
-            showMoreBtn.style.display = 'inline-block';
-        });
-    }
-}
-
-toggleShowMoreLess('more-properties-featured', 'showMoreBtn-featured', 'showLessBtn-featured');
-toggleShowMoreLess('more-properties-alquiler', 'showMoreBtn-alquiler', 'showLessBtn-alquiler');
-toggleShowMoreLess('more-properties-ventas', 'showMoreBtn-ventas', 'showLessBtn-ventas');
-    </script>
-<script src="/proyecto/js/loader.js"></script>
+    <script src="/proyecto/js/app.js"></script>
 </body>
 
 </html>

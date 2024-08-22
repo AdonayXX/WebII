@@ -20,7 +20,7 @@ include 'property_save.php';
     </style>
 </head>
 <body>
-<div class="container my-5">
+<div class="container my-5 p-5">
     <h2><?php echo $is_editing ? 'Editar Propiedad' : 'Nueva Propiedad'; ?></h2>
 
     <?php if (isset($error)): ?>

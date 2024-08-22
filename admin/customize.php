@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-    <div class="container my-5">
+    <div class="container mt-5 p-3">
         <h2>Personalizar Página</h2>
 
         <?php if (isset($success_message)): ?>

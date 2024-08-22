@@ -30,7 +30,7 @@ $properties = $query->get_result()->fetch_all(MYSQLI_ASSOC);
     </style>
 </head>
 <body>
-<div class="container my-5">
+<div class="container my-5 p-5">
     <h2>Mis Propiedades</h2>
 
     <a href="property_form.php" class="btn btn-primary mb-3">Agregar Nueva Propiedad</a>

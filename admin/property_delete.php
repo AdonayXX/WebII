@@ -45,7 +45,7 @@ $properties = $query->fetch_all(MYSQLI_ASSOC);
 </head>
 
 <body>
-    <div class="container my-5">
+    <div class="container mt-5 p-3">
         <h2>Lista de Propiedades</h2>
 
         <?php if (isset($success_message)): ?>
