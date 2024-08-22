@@ -11,8 +11,7 @@ $role = $_SESSION['role'] ?? null;
 
 ob_end_flush();
 ?>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" href="http://localhost/proyecto/index.php">
             <img src="http://localhost/proyecto/img/<?php echo $config['banner_image']; ?>?<?php echo time(); ?>" alt="Logo" height="50">

@@ -10,7 +10,6 @@ if ($_SESSION['role'] !== 'admin') {
 $property = null;
 
 if (isset($_GET['id'])) {
-    // Si se proporciona un ID, se está intentando editar una propiedad
     $property_id = $_GET['id'];
     var_dump($property_id);
     $query = $conn->prepare("SELECT * FROM properties WHERE id = ? AND (user_id = ? OR ? = 'admin')");

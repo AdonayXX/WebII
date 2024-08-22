@@ -1,6 +1,7 @@
 
 <?php
 include 'includes/navbar.php';
+include 'includes/db.php';  
 include 'includes/site_config.php'; 
 ?>
 <!DOCTYPE html>
@@ -21,7 +22,7 @@ include 'includes/site_config.php';
 </style>
 
 <body>
-    <div class="container mt-5">
+    <div class="container mt-5 p-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">

@@ -27,6 +27,8 @@ if (json_last_error() !== JSON_ERROR_NONE) {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/proyecto/css/style.css?<?php echo time(); ?>">
+    <link rel="stylesheet" href="/proyecto/css/animation.css?<?php echo time();?>">
+    <link rel="stylesheet" href="/proyecto/css/loader.css?<?php echo time();?>">
     <style>
         body {
             background-color: <?php echo htmlspecialchars($config['primary_color']); ?>;
@@ -225,13 +227,13 @@ if (json_last_error() !== JSON_ERROR_NONE) {
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-<script>
-    function toggleShowMoreLess(sectionClass, showMoreBtnId, showLessBtnId) {
+    <script>
+        function toggleShowMoreLess(sectionClass, showMoreBtnId, showLessBtnId) {
     const showMoreBtn = document.getElementById(showMoreBtnId);
     const showLessBtn = document.getElementById(showLessBtnId);
     const properties = document.querySelectorAll(`.${sectionClass}`);
 
-    if (showMoreBtn && showLessBtn) {  // Asegurarse de que los botones existen
+    if (showMoreBtn && showLessBtn) { 
         showMoreBtn.addEventListener('click', function() {
             properties.forEach(function(property) {
                 property.style.display = 'block';
@@ -250,12 +252,11 @@ if (json_last_error() !== JSON_ERROR_NONE) {
     }
 }
 
-// Configura cada sección con sus respectivos botones
 toggleShowMoreLess('more-properties-featured', 'showMoreBtn-featured', 'showLessBtn-featured');
 toggleShowMoreLess('more-properties-alquiler', 'showMoreBtn-alquiler', 'showLessBtn-alquiler');
 toggleShowMoreLess('more-properties-ventas', 'showMoreBtn-ventas', 'showLessBtn-ventas');
-
-</script>
+    </script>
+<script src="/proyecto/js/loader.js"></script>
 </body>
 
 </html>

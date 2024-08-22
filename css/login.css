@@ -29,12 +29,10 @@
     transition: background-color 0.3s ease;
 }
 
-/* Hover del botón de login */
 .buttonLogin:hover {
     background-color: #218838 !important;
 }
 
-/* Estilo de enlaces */
 .text-center a {
     color: #150D3E;
     text-decoration: none;
@@ -45,7 +43,6 @@
     color: #e55e50;
 }
 
-/* Toast de error */
 .toast-container {
     position: fixed;
     bottom: 20px;

@@ -4,13 +4,11 @@ include '../includes/site_config.php';
 include '../includes/db.php';
 
 
-// Verifica que el usuario sea un agente o administrador
 if ($_SESSION['role'] !== 'agent' && $_SESSION['role'] !== 'admin') {
     header("Location: ../index.php");
     exit();
 }
 
-// Obtener las propiedades del agente
 $query = $conn->prepare("SELECT * FROM properties WHERE user_id = ?");
 $query->bind_param("i", $_SESSION['user_id']);
 $query->execute();

@@ -1,0 +1,75 @@
+body {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+.hero {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    animation-delay: 0.5s;
+}
+
+.property, .footer, .finally, .footer-form, .social-icons {
+    opacity: 0;
+    transform: translateY(50px);
+    animation: slideIn 1s forwards;
+}
+
+.property {
+    animation-delay: 1s;
+}
+
+.footer, .finally, .footer-form {
+    animation-delay: 1.5s;
+}
+
+.social-icons {
+    animation-delay: 2s;
+}
+
+.section-title {
+    opacity: 0;
+    animation: fadeInUp 1s forwards;
+    animation-delay: 0.7s;
+}
+
+.btn {
+    transition: transform 0.3s ease;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+}
+
+.social-icons a {
+    margin: 0 10px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons a:hover {
+    transform: scale(1.2);
+}
+
+.social-icons a i {
+    font-size: 1.5rem;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

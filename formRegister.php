@@ -20,7 +20,7 @@ include 'includes/site_config.php';
 </style>
 
 <body>
-    <div class="container">
+    <div class="container p-5">
         <div class="row mt-5">
             <div class="col-md-6 offset-md-3">
                 <div class="card rounded-3 ">

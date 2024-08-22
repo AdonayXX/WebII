@@ -8,7 +8,6 @@ if ($_SESSION['role'] !== 'admin') {
     exit();
 }
 
-// Obtener la configuración actual del sitio
 $query = $conn->query("SELECT * FROM site_config WHERE id = 1");
 $config = $query->fetch_assoc();
 
@@ -21,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $phone = $_POST['phone'];
     $email = $_POST['email'];
 
-    // Procesar los enlaces de redes sociales
     $social_links = [];
     foreach ($_POST['social_name'] as $index => $name) {
         $url = $_POST['social_url'][$index];
@@ -50,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         move_uploaded_file($_FILES['hero_image']['tmp_name'], "../img/$hero_image");
     }
 
-    // Actualizar la configuración en la base de datos
     $query = $conn->prepare("UPDATE site_config SET primary_color = ?, secondary_color = ?, banner_text = ?, about_text = ?, address = ?, phone = ?, email = ?, social_links = ?, banner_image = ?, about_image = ?, hero_image = ? WHERE id = 1");
     $query->bind_param("sssssssssss", $primary_color, $secondary_color, $banner_text, $about_text, $address, $phone, $email, $social_links_json, $banner_image, $about_image, $hero_image);
 

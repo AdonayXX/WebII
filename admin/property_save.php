@@ -17,7 +17,6 @@ $user_id = $_SESSION['user_id'];
 if ($image) {
     move_uploaded_file($_FILES['image']['tmp_name'], "../img/$image");
 } else {
-    // Si no se carga una nueva imagen, mantener la imagen existente si es una actualización
     if (isset($_POST['property_id']) && $_POST['property_id'] != '') {
         $query = $conn->prepare("SELECT image FROM properties WHERE id = ?");
         $query->bind_param("i", $_POST['property_id']);
@@ -30,7 +29,6 @@ if ($image) {
 }
 
 if (isset($_POST['property_id']) && $_POST['property_id'] != '') {
-    // Actualizar propiedad existente
     $property_id = $_POST['property_id'];
     $query = $conn->prepare("UPDATE properties SET title = ?, description = ?, price = ?, type = ?, is_featured = ?, image = ? WHERE id = ? AND (user_id = ? OR ? = 'admin')");
     $query->bind_param("ssdsisiss", $title, $description, $price, $type, $is_featured, $image, $property_id, $user_id, $_SESSION['role']);
