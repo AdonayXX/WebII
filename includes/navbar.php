@@ -70,6 +70,11 @@ ob_end_flush();
                     </li>
                 <?php endif; ?>
             </ul>
+            <!-- Formulario de búsqueda -->
+            <form class="d-flex" method="GET" action="index.php">
+                <input class="form-control me-2" type="search" placeholder="Buscar propiedades" aria-label="Search" name="search">
+                <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
+            </form>
         </div>
     </div>
 </nav>

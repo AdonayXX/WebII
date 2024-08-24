@@ -7,7 +7,17 @@ $direccion = $config['address'];
 $telefono = $config['phone'];
 $email = $config['email'];
 
-$query = $conn->query("SELECT * FROM view_properties_with_agents ORDER BY created_at DESC");
+
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+$sql = "SELECT * FROM view_properties_with_agents WHERE 1=1";
+
+if (!empty($search)) {
+    $sql .= " AND (description LIKE '%" . $conn->real_escape_string($search) . "%' OR title LIKE '%" . $conn->real_escape_string($search) . "%')";
+}
+
+$sql .= " ORDER BY created_at DESC";
+$query = $conn->query($sql);
 $properties = $query->fetch_all(MYSQLI_ASSOC);
 
 $social_links = !empty($config['social_links']) ? json_decode($config['social_links'], true) : [];
@@ -76,6 +86,9 @@ if (json_last_error() !== JSON_ERROR_NONE) {
         <h2 class="section-title">Propiedades Destacadas</h2>
         <div class="row" id="featured-properties">
             <?php
+            if (empty($properties)) {
+                echo "<p>No se encontraron propiedades que coincidan con tu búsqueda.</p>";
+            } else {
             $property_count = 0;
             foreach ($properties as $property):
                 if ($property['is_featured']) {
@@ -86,16 +99,17 @@ if (json_last_error() !== JSON_ERROR_NONE) {
                             <img src="img/<?php echo htmlspecialchars($property['image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($property['title']); ?>">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title"><?php echo htmlspecialchars($property['title']); ?></h5>
-                                <p class="card-text"><?php echo htmlspecialchars($property['description']); ?></p>
+                                <hr>
+                                <p class="card-text">Descripción: <?php echo htmlspecialchars($property['description']); ?></p>
                                 <p class="card-text">Agente: <?php echo htmlspecialchars($property['agent_name']); ?></p>
-                                <p class="card-text mt-auto">Precio: $<?php echo number_format($property['price'], 2); ?></p>
-                                <a href="property_details.php?id=<?php echo htmlspecialchars($property['id']); ?>" class="btn btn-warning mt-auto">Ver más...</a>
+                                <p class="card-text">Precio: $<?php echo number_format($property['price'], 2); ?></p>
                             </div>
                         </div>
                     </div>
             <?php
                 }
             endforeach;
+        }
             ?>
         </div>
         <?php if ($property_count > 3): ?>
@@ -110,6 +124,9 @@ if (json_last_error() !== JSON_ERROR_NONE) {
         <h2 class="section-title">Alquileres</h2>
         <div class="row" id="rental-properties">
             <?php
+            if (empty($properties)) {
+                echo "<p>No se encontraron propiedades que coincidan con tu búsqueda.</p>";
+            } else {
             $alquiler_count = 0;
             foreach ($properties as $property):
                 if ($property['type'] == 'Alquiler') {
@@ -120,15 +137,18 @@ if (json_last_error() !== JSON_ERROR_NONE) {
                             <img src="img/<?php echo htmlspecialchars($property['image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($property['title']); ?>">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title"><?php echo htmlspecialchars($property['title']); ?></h5>
-                                <p class="card-text"><?php echo htmlspecialchars($property['description']); ?></p>
+                                <hr>
+                                <p class="card-text">Descripción: <?php echo htmlspecialchars($property['description']); ?></p>
                                 <p class="card-text">Agente: <?php echo htmlspecialchars($property['agent_name']); ?></p>
-                                <p class="card-text mt-auto">Mensualidad: $<?php echo number_format($property['price'], 2); ?></p>
-                                <a href="property_details.php?id=<?php echo htmlspecialchars($property['id']); ?>" class="btn btn-warning mt-auto">Ver más...</a>
+                                <p class="card-text">Mensualidad: $<?php echo number_format($property['price'], 2); ?></p>
                             </div>
                         </div>
                     </div>
             <?php }
-            endforeach; ?>
+            endforeach; 
+        }
+            
+            ?>
         </div>
         <?php if ($alquiler_count > 3): ?>
             <div class="text-center mt-4">
@@ -142,6 +162,9 @@ if (json_last_error() !== JSON_ERROR_NONE) {
         <h2 class="section-title">Ventas</h2>
         <div class="row" id="sales-properties">
             <?php
+            if (empty($properties)) {
+                echo "<p>No se encontraron propiedades que coincidan con tu búsqueda.</p>";
+            } else {
             $venta_count = 0;
             foreach ($properties as $property):
                 if ($property['type'] == 'Venta') {
@@ -156,12 +179,13 @@ if (json_last_error() !== JSON_ERROR_NONE) {
                                 <p class="card-text">descripción: <?php echo htmlspecialchars($property['description']); ?></p>
                                 <p class="card-text">Agente: <?php echo htmlspecialchars($property['agent_name']); ?></p>
                                 <p class="card-text mt-auto">Precio: $<?php echo number_format($property['price'], 2); ?></p>
-                                <a href="property_details.php?id=<?php echo htmlspecialchars($property['id']); ?>" class="btn btn-warning mt-auto">Ver más...</a>
                             </div>
                         </div>
                     </div>
             <?php }
-            endforeach; ?>
+            endforeach; 
+        }
+            ?>
         </div>
         <?php if ($venta_count > 3): ?>
             <div class="text-center mt-4">
